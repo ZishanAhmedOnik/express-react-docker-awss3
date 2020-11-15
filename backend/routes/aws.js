@@ -48,6 +48,24 @@ router.get('/list', (req, res) => {
             res.send(data.Contents);
         }
     })
+});
+
+router.get('/download/:key', (req, res) => {
+    let params = {
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Key: req.params.key
+    }
+
+    let readStream = s3.getObject(params).createReadStream();
+
+    readStream.on('error', (err) => {
+        res.send(err);
+    })
+
+    readStream.pipe(res)
+        .on('error', (err) => {
+            console.log(err);
+        })
 })
 
 module.exports = router;

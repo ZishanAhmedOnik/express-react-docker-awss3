@@ -1,0 +1,3 @@
+export const FETCH_LIST_FILES = 'FETCH_LIST_FILES';
+export const FILE_UPLOAD = 'FILE_UPLOAD';
+export const FILE_UPLOADED = 'FILE_UPLOADED';

@@ -4,6 +4,10 @@ import { connect } from "react-redux";
 
 
 class FileList extends React.Component {
+    componentDidMount() {
+        this.props.fetchFiles();
+    }
+
     render() {
         return(
             <div>

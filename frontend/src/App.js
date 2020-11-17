@@ -1,6 +1,8 @@
 import React from 'react';
 
 import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
 import FileList from './components/FileListComponent';
 import FileUploadComponent from './components/FileUploadComponent';
 import NavbarComponent from './components/NavbarComponent';
@@ -21,16 +23,24 @@ const videoJsOptions = {
 function App() {
   return (
     <Provider store={store}>
-      <NavbarComponent />
-      <div className="container">
-        <FileUploadComponent />
-        <FileList></FileList>
+      <Router>
+        <NavbarComponent />
+        <div className="container">
+          <Switch>
+            <Route path="/filelist">
+              <FileList></FileList>
+            </Route>
 
-        <br></br>
-        <br></br>
+            <Route path="/player">
+              <VideoPlayer />
+            </Route>
 
-        <VideoPlayer { ...videoJsOptions } />
-      </div>
+            <Route path="/">
+              <FileUploadComponent />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
     </Provider>
   );
 }

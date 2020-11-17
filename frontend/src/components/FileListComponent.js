@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 class FileList extends React.Component {
     componentDidMount() {
-        this.props.fetchFiles();
+        // this.props.fetchFiles();
     }
 
     render() {

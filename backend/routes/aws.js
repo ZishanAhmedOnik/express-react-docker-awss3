@@ -3,6 +3,7 @@ let multer = require('multer');
 let multerS3 = require('multer-s3');
 let AWS = require('aws-sdk');
 let uuid = require('uuid/v4');
+let S3Video = require('../models/S3Video')
 
 const s3 = new AWS.S3({
     accessKeyId: process.env.AWS_ID,
@@ -34,23 +35,27 @@ const upload = multer({
 }).single('file')
 
 router.post('/upload', upload, (req, res) => {
-    console.log(req.file);
+    let uploadedVideo = new S3Video({
+        originalname: req.file.originalname,
+        encoding: req.file.encoding,
+        mimetype: req.file.mimetype,
+        size: req.file.size,
+        key: req.file.key,
+        location: req.file.location
+    })
 
-    res.json({ 'status': 'OK' });
+    uploadedVideo.save((err) => {
+        if (err) {
+            res.status(500).send(err)
+        }
+
+        res.send({ status: 'OK' })
+    })
 });
 
 router.get('/list', (req, res) => {
-    let params = {
-        Bucket: process.env.AWS_BUCKET_NAME
-    }
-
-    s3.listObjectsV2(params, (err, data) => {
-        if (err) {
-            res.status(500).send(err);
-        }
-        else {
-            res.send(data.Contents);
-        }
+    S3Video.find({}, (err, result) => {
+        res.json(result)
     })
 });
 

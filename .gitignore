@@ -116,4 +116,4 @@ dist
 .pnp.*
 
 # DATABASE DIRECTORY
-.db
+db/

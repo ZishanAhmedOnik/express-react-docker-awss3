@@ -28,10 +28,12 @@ export const fetchFiles = () => (dispatch) => {
         })
 }
 
-export const fileUpload = (file) => (dispatch) => {
+export const fileUpload = (fileData) => (dispatch) => {
     let formData = new FormData();
 
-    formData.append("file", file);
+    formData.append('file', fileData.fileToUpload);
+    formData.append('contentName', fileData.contentName);
+    formData.append('contentDescription', fileData.contentDescription);
 
     axios.post('http://localhost:8080/aws/upload', formData)
         .then(response => {

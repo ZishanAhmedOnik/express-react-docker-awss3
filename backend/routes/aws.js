@@ -35,7 +35,13 @@ const upload = multer({
 }).single('file')
 
 router.post('/upload', upload, (req, res) => {
+    const { contentName, contentDescription } = req.body;
+
+    console.log(contentName, contentDescription);
+
     let uploadedVideo = new S3Video({
+        contentName: contentName,
+        contentDescription: contentDescription,
         originalname: req.file.originalname,
         encoding: req.file.encoding,
         mimetype: req.file.mimetype,
@@ -55,7 +61,7 @@ router.post('/upload', upload, (req, res) => {
 
 router.get('/list', (req, res) => {
     S3Video.find({}, (err, result) => {
-        res.json(result)
+        res.json(result);
     })
 });
 

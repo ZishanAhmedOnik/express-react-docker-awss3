@@ -8,6 +8,8 @@ class FileUploadComponent extends Component {
         super(props);
 
         this.state = {
+            contentName: '',
+            contentDescription: '',
             fileToUpload: null
         }
     }
@@ -16,6 +18,16 @@ class FileUploadComponent extends Component {
         return (
             <div>
                 <form onSubmit={this.submitForm}>
+                    <div className="form-group">
+                        <label htmlFor="contentName">Content Name:</label>
+                        <input type="text" className="form-control" name="contentName" onChange={this.handleChange} required={true} />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="contentDescription">Content Description:</label>
+                        <textarea className="form-control" name="contentDescription" onChange={this.handleChange} required={true}></textarea>
+                    </div>
+
                     <div className="form-group">
                         <label htmlFor="file">File:</label>
                         <input className="form-control" id="file" name="file" type="file" accept="video/*" onChange={this.handleChange} required={true} />
@@ -32,16 +44,24 @@ class FileUploadComponent extends Component {
     submitForm = (event, input) => {
         event.preventDefault();
 
-        this.props.fileUpload(this.state.fileToUpload);
+        this.props.fileUpload(this.state);
     }
 
     handleChange = (event, input) => {
         event.preventDefault();
 
-        this.setState({
-            ...this.state,
-            fileToUpload: event.target.files[0]
-        })
+        if (event.target.name === 'file') {
+            this.setState({
+                ...this.state,
+                fileToUpload: event.target.files[0]
+            })
+        }
+        else {
+            this.setState({
+                ...this.state,
+                [event.target.name]: event.target.value
+            })
+        }
     }
 }
 
@@ -51,4 +71,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default  connect(null, mapDispatchToProps) (FileUploadComponent);
+export default connect(null, mapDispatchToProps)(FileUploadComponent);

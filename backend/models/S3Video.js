@@ -2,6 +2,8 @@ let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
 let S3VideoSchema = new Schema({
+    contentName: String,
+    contentDescription: String,
     originalname: String,
     encoding: String,
     mimetype: String,

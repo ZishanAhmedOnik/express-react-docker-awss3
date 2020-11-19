@@ -74,7 +74,7 @@ router.get('/download/:key', (req, res) => {
     let readStream = s3.getObject(params).createReadStream();
 
     readStream.on('error', (err) => {
-        res.send(err);
+        console.log(err);
     })
 
     readStream.pipe(res)

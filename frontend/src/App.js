@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import FileList from './components/FileListComponent';
 import FileUploadComponent from './components/FileUploadComponent';
 import NavbarComponent from './components/NavbarComponent';
-import VideoPlayer from './components/VideoPlayer';
+import AppVideoPlayer from './components/AppVideoPlayer';
 
 import store from './redux/store';
 
@@ -32,7 +32,7 @@ function App() {
             </Route>
 
             <Route path="/player">
-              <VideoPlayer />
+              <AppVideoPlayer />
             </Route>
 
             <Route path="/">

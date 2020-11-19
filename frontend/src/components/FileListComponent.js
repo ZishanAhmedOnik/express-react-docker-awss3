@@ -1,6 +1,9 @@
 import React from "react";
 import { fetchFiles } from "../redux";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+
+import { selectContent } from '../redux';
 
 
 class FileList extends React.Component {
@@ -33,7 +36,9 @@ class FileList extends React.Component {
     }
 
     handleCardClick = (event) => {
-        console.log(event.target.dataset.key);
+        this.props.selectContent(event.target.dataset.key);
+
+        this.props.history.push('/player')
     }
 
     fetchFileList = () => {
@@ -43,14 +48,16 @@ class FileList extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        fileList: state.fileReducer.files
+        fileList: state.fileReducer.files,
+        selectedContent: state.contentReducer.selectedContent
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchFiles: () => dispatch(fetchFiles())
+        fetchFiles: () => dispatch(fetchFiles()),
+        selectContent: (contentKey) => dispatch(selectContent(contentKey))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FileList);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FileList));

@@ -117,3 +117,6 @@ dist
 
 # DATABASE DIRECTORY
 db/
+
+upload/
+converted_files/

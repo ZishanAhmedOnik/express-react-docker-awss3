@@ -26,7 +26,7 @@ class AppVideoPlayer extends Component {
                     height="420"
                     onReady={this.onPlayerReady}
                     onTimeUpdate={(duration) => this.onTimeUpdate(duration)}
-                    src={`https://erda-public.s3.us-east-2.amazonaws.com/output/21f7622d-9b77-47dd-8aae-591795df95ea.m3u8`}>
+                    src={`https://erda-public.s3.us-east-2.amazonaws.com/output/c4dfd521-27dc-4ecb-bd0f-eb22f8ba26b4.mp4.m3u8`}>
                 </VideoPlayer>
             </div>
         )

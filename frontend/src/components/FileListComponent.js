@@ -14,7 +14,7 @@ class FileList extends React.Component {
     render() {
         return (
             <div>
-                <button className="btn btn-success" onClick={this.fetchFileList}>Fetch File</button>
+                <button className="btn btn-success mr-2" onClick={this.fetchFileList}>Fetch File</button>
 
                 {/* <div>
                     { this.props.fileList.map(file => (

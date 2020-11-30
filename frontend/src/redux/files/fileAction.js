@@ -64,11 +64,35 @@ export const fileUpload = (fileData) => (dispatch) => {
 
     axios.post('http://localhost:8080/aws/upload', formData)
         .then(response => {
-            dispatch(fileUploaded(response.data))
-            dispatch(loadingFinished())
+            let jobId = response.data.Job.Id;
+            
+            return jobId
+        })
+        .then(jobId => {
+            console.log("job id insde another promise", jobId);
+
+            return new Promise((res, rej) => {
+                let interval = setInterval(() => {
+                    axios.get('http://localhost:8080/aws/list_jobs')
+                        .then(response => {
+                            if(response.data.Jobs.length === 0) {
+                                res(interval);
+                            }
+                        })
+                        .catch(err => {
+                            console.log(err);
+
+                            clearInterval(interval);
+                        })
+                }, 1000);
+            });
+        })
+        .then(interval => {
+            clearInterval(interval);
+            dispatch(loadingFinished());
         })
         .catch(err => {
             console.log(err.message);
-            dispatch(loadingFinished())
+            dispatch(loadingFinished());
         })
 }

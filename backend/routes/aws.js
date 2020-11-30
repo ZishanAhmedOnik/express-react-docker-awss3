@@ -261,6 +261,7 @@ router.get('/list_jobs', (req, res) => {
     var params = {
         MaxResults: 10,
         Order: 'ASCENDING',
+        Status: 'PROGRESSING'
       };
 
     let endpointPromise = new AWS.MediaConvert({

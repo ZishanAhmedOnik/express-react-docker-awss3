@@ -40,8 +40,6 @@ const upload = multer({
 router.post('/upload', upload, (req, res) => {
     const { contentName, contentDescription } = req.body;
 
-    console.log(contentName, contentDescription);
-
     var params = {
         "Queue": "arn:aws:mediaconvert:us-east-2:098258936739:queues/Default",
         "UserMetadata": {},
@@ -225,7 +223,26 @@ router.post('/upload', upload, (req, res) => {
 
     endPointPromise.then(
         (data) => {
-            res.json(data)
+            let uploadedVideo = new S3Video({
+                jobId: data.Job.Id,
+                jobStatus: 'PROGRESSING',
+                contentName: contentName,
+                contentDescription: contentDescription,
+                originalName: req.file.originalname,
+                encoding: req.file.encoding,
+                mimetype: req.file.mimetype,
+                size: req.file.size,
+                key: req.file.key,
+                location: `https://erda-public.s3.us-east-2.amazonaws.com/output_${req.file.key}/${req.file.key}output.m3u8`
+            })
+
+            uploadedVideo.save((err) => {
+                if(err) {
+                    res.status(500).send(err);
+                }
+
+                res.json(data);
+            });
         },
         (err) => {
             res.json(err);
@@ -234,7 +251,7 @@ router.post('/upload', upload, (req, res) => {
 });
 
 router.get('/list', (req, res) => {
-    S3Video.find({}, (err, result) => {
+    S3Video.find({ jobStatus: 'COMPLETED' }, (err, result) => {
         res.json(result);
     })
 });
@@ -272,7 +289,18 @@ router.get('/list_jobs', (req, res) => {
 
     endpointPromise.then(
         function(data) {
-          res.json(data);
+            if(data.Jobs.length === 0) {
+                S3Video.updateMany({ jobStatus: 'PROGRESSING' }, { jobStatus: 'COMPLETED' }, (err, vids) => {
+                    if(err) {
+                        res.status(500).send(err);
+                    }
+
+                    res.json(data);
+                })
+            }
+            else {
+                res.json(data);
+            }
         },
         function(err) {
           res.json(err);

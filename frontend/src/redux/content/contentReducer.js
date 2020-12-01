@@ -1,7 +1,7 @@
 const { CONTENT_SELECT } = require("./contentType");
 
 const initalState = {
-    selectedContent: ''
+    selectedContent: {  }
 }
 
 const contentReducer = (state = initalState, action) => {

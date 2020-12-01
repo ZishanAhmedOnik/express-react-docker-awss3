@@ -12,12 +12,14 @@ class AppVideoPlayer extends Component {
         // if (this.props.selectedContent === '') {
         //     this.props.history.push('/filelist');
         // }
+
+        console.log(this.props.selectedContent);
     }
 
     render() {
         return (
             <div>
-                <h1>{this.props.selectedContent}</h1>
+                <h1>{this.props.selectedContent.contentName}</h1>
 
                 <button onClick={this.seektopos}>Seek</button>
 
@@ -26,7 +28,7 @@ class AppVideoPlayer extends Component {
                     height="420"
                     onReady={this.onPlayerReady}
                     onTimeUpdate={(duration) => this.onTimeUpdate(duration)}
-                    src={`https://erda-public.s3.us-east-2.amazonaws.com/output/c4dfd521-27dc-4ecb-bd0f-eb22f8ba26b4.mp4.m3u8`}>
+                    src={this.props.selectedContent.location}>
                 </VideoPlayer>
             </div>
         )

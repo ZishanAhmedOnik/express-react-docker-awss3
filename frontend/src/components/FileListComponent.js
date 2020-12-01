@@ -25,7 +25,7 @@ class FileList extends React.Component {
 
                 <div className="row">
                     {this.props.fileList.map(file => (
-                        <div className="col card btn-light" key={file.key} onClick={() => this.handleCardClick(file.key)} style={{ height: '200px' }}>
+                        <div className="col card btn-light" key={file.key} onClick={() => this.handleCardClick(file)} style={{ height: '200px' }}>
                             <h3>{file.contentName}</h3>
                             <p className="text-center" style={{ marginTop: '100px' }}>{file.contentDescription}</p>
                         </div>

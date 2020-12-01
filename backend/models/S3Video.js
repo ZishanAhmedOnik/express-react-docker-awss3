@@ -2,9 +2,11 @@ let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
 let S3VideoSchema = new Schema({
+    jobId: String,
+    jobStatus: String,
     contentName: String,
     contentDescription: String,
-    originalname: String,
+    originalName: String,
     encoding: String,
     mimetype: String,
     size: Number,

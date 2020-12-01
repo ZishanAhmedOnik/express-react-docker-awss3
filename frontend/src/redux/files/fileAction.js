@@ -25,27 +25,7 @@ export const fetchFiles = () => (dispatch) => {
             let files = response.data;
 
             dispatch(fetchFilesSuccess(files))
-            // dispatch(loadingFinished())
-
-            return files;
-        })
-        .then((files) => {
-            axios.get('http://localhost:8080/aws/list_jobs')
-                .then(response => {
-
-                    console.log(files);
-
-                    response.data.Jobs.forEach(job => {
-                        console.log(job.Id);
-                    })
-
-                    // console.log(response.data);
-
-                    dispatch(loadingFinished());
-                })
-                .catch(err => {
-                    console.log(err);
-                })
+            dispatch(loadingFinished())
         })
         .catch(err => {
             console.log(err.message)

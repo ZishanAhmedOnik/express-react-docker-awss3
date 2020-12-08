@@ -10,6 +10,8 @@ import AppVideoPlayer from './components/AppVideoPlayer';
 import LoadingScreenComponent from './components/LoadingScreenComponent';
 
 import store from './redux/store';
+import LoginComponent from './components/Auth/LoginComponent';
+import RegisterComponent from './components/Auth/RegisterComponent';
 
 // const videoJsOptions = {
 //   autoplay: true,
@@ -36,6 +38,14 @@ function App() {
 
             <Route path="/player">
               <AppVideoPlayer />
+            </Route>
+
+            <Route path="/login">
+              <LoginComponent />
+            </Route>
+
+            <Route path="/register">
+              <RegisterComponent />
             </Route>
 
             <Route path="/">

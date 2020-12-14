@@ -1,4 +1,6 @@
 import { Component } from 'react';
+import { connect } from 'react-redux';
+import { registerUser } from '../../redux';
 
 class RegisterComponent extends Component {
     constructor(props) {
@@ -68,7 +70,21 @@ class RegisterComponent extends Component {
         event.preventDefault();
 
         console.log(this.state);
+        
+        this.props.registerUser(this.state);
     }
 }
 
-export default RegisterComponent;
+const mapStateToProps = (state) => {
+    return {
+        user: state.authReducer.user
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        registerUser: (userData) => dispatch(registerUser(userData))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterComponent);

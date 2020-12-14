@@ -1,8 +1,10 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
+let bcrypt = require('bcrypt');
+
 const UserSchema = new Schema({
-    userNmae: {
+    userName: {
         type: String,
         required: true
     },
@@ -25,6 +27,18 @@ const UserSchema = new Schema({
         required: true
     }
 });
+
+UserSchema.pre('save', async function (next) {
+    try {
+        let salt = await bcrypt.genSalt(10);
+        let hashedPassword = await bcrypt.hash(this.password, salt);
+        this.password = hashedPassword;
+
+        next();
+    } catch(error) {
+        next(error);
+    }
+})
 
 let User = mongoose.model('User', UserSchema);
 

@@ -13,6 +13,8 @@ const port = process.env.PORT
 require('./helpers/init_mongodb');
 
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 app.use(morgan('dev'));
 
 app.use('/', index);

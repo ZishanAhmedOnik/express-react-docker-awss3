@@ -7,6 +7,7 @@ mongoose.connect(mongoURI, {
     password: process.env.MONGODB_PASSWORD
   },
   authSource: "admin",
+  useCreateIndex: true,
   useUnifiedTopology: true,
   useNewUrlParser: true
 }).then(

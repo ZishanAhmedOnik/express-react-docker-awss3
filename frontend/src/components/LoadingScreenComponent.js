@@ -7,7 +7,8 @@ const loadingContainerStyle = {
     left: 0,
     width: '100%',
     height: '100%',
-    backgroundColor: 'F8F8F8'
+    backgroundColor: 'F8F8F8',
+    zIndex: 2,
 }
 
 const loaderStyle = {

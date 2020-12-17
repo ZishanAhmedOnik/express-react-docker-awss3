@@ -7,7 +7,7 @@ module.exports = {
             let payload = {
             }
 
-            let secret = 'some super secret';
+            let secret = process.env.ACCESS_TOKEN_SECRET;
             let options = {
                 expiresIn: '1h',
                 issuer: 'nodedockers3',

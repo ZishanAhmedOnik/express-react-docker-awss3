@@ -2,12 +2,12 @@ const router = require('express').Router();
 const createError = require('http-errors');
 
 const User = require('../../models/Auth/User');
-let { authSchema } = require('../../helpers/validation_schema');
+let { registerSchema, loginSchema } = require('../../helpers/validation_schema');
 let { signAccessToken } = require('../../helpers/jwt_helper');
 
 router.post('/register', async (req, res, next) => {
     try {
-        let result = await authSchema.validateAsync(req.body);
+        let result = await registerSchema.validateAsync(req.body);
         let email = result.email;
 
         let doesExist = await User.findOne({ email });
@@ -34,15 +34,35 @@ router.post('/register', async (req, res, next) => {
 })
 
 router.post('/login', async (req, res, next) => {
-    let { email, password } = req.body;
-
     try {
-        let user = await User.findOne({ email });
+        let result = await loginSchema.validateAsync(req.body);
+
+        let user = await User.findOne({
+            $or: [
+                { email: result.emailOrUserName },
+                { userName: result.emailOrUserName }
+            ]
+        });
+
+        if(!user) {
+            throw createError.NotFound('User not registered');
+        }
+
+        let isMatch = await user.isValidPassword(result.password);
+
+        if(!isMatch) {
+            throw createError.Unauthorized('Invalid Credentials'); 
+        }
+
         let accessToken = await signAccessToken(user.id);
 
         res.json({ accessToken });
     }
     catch (err) {
+        if (err.isJoi === true) {
+            return next(createError.BadRequest('Invalid Credentials'))
+        }
+
         next(err);
     }
 })

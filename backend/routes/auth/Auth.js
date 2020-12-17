@@ -3,6 +3,7 @@ const createError = require('http-errors');
 
 const User = require('../../models/Auth/User');
 let { authSchema } = require('../../helpers/validation_schema');
+let { signAccessToken } = require('../../helpers/jwt_helper');
 
 router.post('/register', async (req, res, next) => {
     try {
@@ -11,7 +12,7 @@ router.post('/register', async (req, res, next) => {
 
         let doesExist = await User.findOne({ email });
 
-        if(doesExist) {
+        if (doesExist) {
             throw createError.Conflict(`${email} already in use`);
         }
 
@@ -23,8 +24,8 @@ router.post('/register', async (req, res, next) => {
 
         res.json(resp);
     }
-    catch(err) {
-        if(err.isJoi === true) {
+    catch (err) {
+        if (err.isJoi === true) {
             err.status = 422
         }
 
@@ -32,8 +33,18 @@ router.post('/register', async (req, res, next) => {
     }
 })
 
-router.post('/login', (req, res) => {
-    res.send('login route');
+router.post('/login', async (req, res, next) => {
+    let { email, password } = req.body;
+
+    try {
+        let user = await User.findOne({ email });
+        let accessToken = await signAccessToken(user.id);
+
+        res.json({ accessToken });
+    }
+    catch (err) {
+        next(err);
+    }
 })
 
 router.post('/refresh-token', (req, res) => {

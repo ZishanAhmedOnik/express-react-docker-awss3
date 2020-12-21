@@ -1,11 +1,13 @@
 import { Component } from 'react';
+import { connect } from 'react-redux';
+import { loginUser } from '../../redux';
 
 class LoginComponent extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            userName: '',
+            emailOrUserName: '',
             password: ''
         }
     }
@@ -17,8 +19,8 @@ class LoginComponent extends Component {
                     <div className="card-body">
                         <form onSubmit={this.handleSubmit}>
                             <div className="form-group">
-                                <label htmlFor="userName">User Name:</label>
-                                <input name="userName" onChange={this.handleChange} type="text" className="form-control" required={true}/>
+                                <label htmlFor="emailOrUserName">User Name:</label>
+                                <input name="emailOrUserName" onChange={this.handleChange} type="text" className="form-control" required={true}/>
                             </div>
 
                             <div className="form-group">
@@ -44,8 +46,20 @@ class LoginComponent extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
 
-        console.log(this.state);
+        this.props.loginUser(this.state);
     }
 }
 
-export default LoginComponent;
+const mapStateToProps = (state) => {
+    return {
+        user: state.authReducer.user
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        loginUser: (credentials) => dispatch(loginUser(credentials))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (LoginComponent);

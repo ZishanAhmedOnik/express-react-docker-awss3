@@ -3,7 +3,7 @@ const createError = require('http-errors');
 
 const User = require('../../models/Auth/User');
 let { registerSchema, loginSchema } = require('../../helpers/validation_schema');
-let { signAccessToken } = require('../../helpers/jwt_helper');
+let { signAccessToken, signRefreshToken } = require('../../helpers/jwt_helper');
 
 router.post('/register', async (req, res, next) => {
     try {
@@ -55,8 +55,9 @@ router.post('/login', async (req, res, next) => {
         }
 
         let accessToken = await signAccessToken(user.id);
+        let refreshToken = await signRefreshToken(user.id);
 
-        res.json({ accessToken });
+        res.json({ accessToken, refreshToken });
     }
     catch (err) {
         if (err.isJoi === true) {

@@ -9,7 +9,7 @@ module.exports = {
 
             let secret = process.env.ACCESS_TOKEN_SECRET;
             let options = {
-                expiresIn: '30sec',
+                expiresIn: '15sec',
                 issuer: 'nodedockers3',
                 audience: userId
             };
@@ -72,4 +72,18 @@ module.exports = {
             });
         })
     },
+
+    verifyRefreshToken(refreshToken) {
+        return new Promise((resovle, reject) => {
+            JWT.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, payload) => {
+                if(err) {
+                    return reject(createError.Unauthorized());
+                }
+
+                let userId = payload.aud;
+
+                resovle(userId);
+            })
+        })
+    }
 }

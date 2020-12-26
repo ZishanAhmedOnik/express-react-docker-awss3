@@ -2,7 +2,7 @@ import { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 
-import styles from './style.css';
+import './style.css';
 import { logout } from "../../redux";
 
 

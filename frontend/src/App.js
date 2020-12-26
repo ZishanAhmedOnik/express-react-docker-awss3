@@ -5,13 +5,15 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import FileList from './components/FileListComponent';
 import FileUploadComponent from './components/FileUploadComponent';
-import NavbarComponent from './components/NavbarComponent';
+import NavbarComponent from './components/Navbar/NavbarComponent';
 import AppVideoPlayer from './components/AppVideoPlayer';
 import LoadingScreenComponent from './components/LoadingScreenComponent';
 
 import store from './redux/store';
 import LoginComponent from './components/Auth/LoginComponent';
 import RegisterComponent from './components/Auth/RegisterComponent';
+
+import setAutToken from '../src/helpers/SetAuthToken';
 
 // const videoJsOptions = {
 //   autoplay: true,
@@ -24,6 +26,8 @@ import RegisterComponent from './components/Auth/RegisterComponent';
 
 
 function App() {
+  setAutToken(localStorage.getItem('accessToken'));
+
   return (
     <Provider store={store}>
       <LoadingScreenComponent></LoadingScreenComponent>

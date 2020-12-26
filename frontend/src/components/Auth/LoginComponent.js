@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { loginUser } from '../../redux';
+import { login } from '../../redux';
 
 class LoginComponent extends Component {
     constructor(props) {
@@ -46,7 +46,7 @@ class LoginComponent extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
 
-        this.props.loginUser(this.state);
+        this.props.login(this.state);
     }
 }
 
@@ -58,7 +58,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        loginUser: (credentials) => dispatch(loginUser(credentials))
+        login: (credentials) => dispatch(login(credentials))
     }
 }
 

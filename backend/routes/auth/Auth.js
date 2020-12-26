@@ -55,8 +55,8 @@ router.post('/login', async (req, res, next) => {
             throw createError.Unauthorized('Invalid Credentials'); 
         }
 
-        let accessToken = await signAccessToken(user.id);
-        let refreshToken = await signRefreshToken(user.id);
+        let accessToken = await signAccessToken(user);
+        let refreshToken = await signRefreshToken(user);
 
         res.json({ accessToken, refreshToken });
     }
@@ -79,8 +79,10 @@ router.post('/refresh-token', async (req, res, next) => {
 
         let userId = await verifyRefreshToken(refreshToken);
 
-        let accessToken = await signAccessToken(userId);
-        let newRefreshToken = await signRefreshToken(userId);
+        let user = await User.findById(userId);
+
+        let accessToken = await signAccessToken(user);
+        let newRefreshToken = await signRefreshToken(user);
 
         res.send({ accessToken: accessToken, refreshToken: newRefreshToken });
 

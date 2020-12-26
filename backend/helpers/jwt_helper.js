@@ -2,16 +2,20 @@ let JWT = require('jsonwebtoken');
 let createError = require('http-errors');
 
 module.exports = {
-    signAccessToken(userId) {
+    signAccessToken(user) {
         return new Promise((resolve, reject) => {
             let payload = {
+                id: user.id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email
             }
 
             let secret = process.env.ACCESS_TOKEN_SECRET;
             let options = {
-                expiresIn: '15sec',
+                expiresIn: '1hr',
                 issuer: 'nodedockers3',
-                audience: userId
+                audience: user.id
             };
 
             JWT.sign(payload, secret, options, (err, token) => {
@@ -49,16 +53,20 @@ module.exports = {
         })
     },
 
-    signRefreshToken(userId) {
+    signRefreshToken(user) {
         return new Promise((resolve, reject) => {
             let payload = {
+                id: user.id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email
             }
 
             let secret = process.env.REFRESH_TOKEN_SECRET;
             let options = {
                 expiresIn: '1y',
                 issuer: 'nodedockers3',
-                audience: userId
+                audience: user.id
             };
 
             JWT.sign(payload, secret, options, (err, token) => {

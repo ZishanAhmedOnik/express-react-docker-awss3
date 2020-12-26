@@ -4,6 +4,7 @@ const createError = require('http-errors');
 const User = require('../../models/Auth/User');
 let { registerSchema, loginSchema } = require('../../helpers/validation_schema');
 let { signAccessToken, signRefreshToken, verifyRefreshToken } = require('../../helpers/jwt_helper');
+const { ref } = require('joi');
 
 router.post('/register', async (req, res, next) => {
     try {
@@ -86,10 +87,6 @@ router.post('/refresh-token', async (req, res, next) => {
     } catch(err) {
         next(err);
     }
-})
-
-router.delete('/logout', (req, res) => {
-    res.send('logout route');
 })
 
 module.exports = router;

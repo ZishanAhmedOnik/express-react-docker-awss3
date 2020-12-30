@@ -1,4 +1,4 @@
-import React from 'react';
+import { Component } from 'react';
 
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -25,41 +25,48 @@ import setAutToken from '../src/helpers/SetAuthToken';
 // }
 
 
-function App() {
-  setAutToken(localStorage.getItem('accessToken'));
+class App extends Component {
 
-  return (
-    <Provider store={store}>
-      <LoadingScreenComponent></LoadingScreenComponent>
+  constructor(props) {
+    super(props);
 
-      <Router>
-        <NavbarComponent />
-        <div className="container">
-          <Switch>
-            <Route path="/filelist">
-              <FileList></FileList>
-            </Route>
+    setAutToken(localStorage.getItem('accessToken'));
+  }
 
-            <Route path="/player">
-              <AppVideoPlayer />
-            </Route>
+  render() {
+    return (
+      <Provider store={store}>
+        <LoadingScreenComponent></LoadingScreenComponent>
 
-            <Route path="/login">
-              <LoginComponent />
-            </Route>
+        <Router>
+          <NavbarComponent />
+          <div className="container">
+            <Switch>
+              <Route path="/filelist">
+                <FileList></FileList>
+              </Route>
 
-            <Route path="/register">
-              <RegisterComponent />
-            </Route>
+              <Route path="/player">
+                <AppVideoPlayer />
+              </Route>
 
-            <Route path="/">
-              <FileUploadComponent />
-            </Route>
-          </Switch>
-        </div>
-      </Router>
-    </Provider>
-  );
+              <Route path="/login">
+                <LoginComponent />
+              </Route>
+
+              <Route path="/register">
+                <RegisterComponent />
+              </Route>
+
+              <Route path="/">
+                <FileUploadComponent />
+              </Route>
+            </Switch>
+          </div>
+        </Router>
+      </Provider>
+    );
+  }
 }
 
 export default App;

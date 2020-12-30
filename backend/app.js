@@ -4,6 +4,8 @@ const cors = require('cors');
 const morgan = require('morgan');
 const createError = require('http-errors');
 
+const { verifyAccessToken } = require('./helpers/jwt_helper')
+
 const index = require('./routes/index');
 const aws = require('./routes/aws');
 const AuthRoute = require('./routes/auth/Auth');
@@ -18,7 +20,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(morgan('dev'));
 
 app.use('/', index);
-app.use('/aws', aws);
+app.use('/aws', verifyAccessToken, aws);
 app.use('/auth', AuthRoute);
 
 app.use((req, res, next) => {

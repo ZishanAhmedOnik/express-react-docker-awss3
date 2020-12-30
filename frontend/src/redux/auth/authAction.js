@@ -1,5 +1,6 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
+import setAuthToken from '../../helpers/SetAuthToken';
 
 import { loadingFinished, loadingStarted } from '../loadingScreen/loadingScreenAction';
 import { LOGIN_USER, LOGOUT_USER } from './authTypes';
@@ -39,6 +40,8 @@ export const login = (credentials) => async (dispatch) => {
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
 
+        setAuthToken(accessToken);
+
         dispatch(loginUser(jwt.decode(accessToken)));
     } catch(err) {
         console.log(err);
@@ -50,6 +53,8 @@ export const login = (credentials) => async (dispatch) => {
 export const logout = () => (dispatch) => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+
+    setAuthToken('');
 
     dispatch(logoutUser());
 }

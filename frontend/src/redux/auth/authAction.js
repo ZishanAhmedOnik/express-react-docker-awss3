@@ -1,6 +1,7 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import setAuthToken from '../../helpers/SetAuthToken';
+import { listFiles } from '../files/fileAction';
 
 import { loadingFinished, loadingStarted } from '../loadingScreen/loadingScreenAction';
 import { LOGIN_USER, LOGOUT_USER } from './authTypes';
@@ -51,6 +52,8 @@ export const login = (credentials) => async (dispatch) => {
 }
 
 export const logout = () => (dispatch) => {
+    dispatch(listFiles([]));
+
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
 

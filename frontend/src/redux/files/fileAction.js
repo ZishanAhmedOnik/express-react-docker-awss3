@@ -3,7 +3,7 @@ import { loadingStarted, loadingFinished } from '../loadingScreen/loadingScreenA
 
 import { FETCH_LIST_FILES, FILE_UPLOADED } from './fileType';
 
-const fetchFilesSuccess = (files) => {
+export const listFiles = (files) => {
     return {
         type: FETCH_LIST_FILES,
         payload: files
@@ -24,7 +24,7 @@ export const fetchFiles = () => (dispatch) => {
         .then(response => {
             let files = response.data;
 
-            dispatch(fetchFilesSuccess(files))
+            dispatch(listFiles(files))
             dispatch(loadingFinished())
         })
         .catch(err => {

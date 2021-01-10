@@ -1,4 +1,9 @@
 
+.logoutBtn {
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+}
+
 .logoutBtn:focus {
     box-shadow: none;
 }

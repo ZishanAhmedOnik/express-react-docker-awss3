@@ -45,7 +45,7 @@ class App extends Component {
           <div className="container">
             <Switch>
               <PublicRoute path="/login" component={LoginComponent} exact={true}></PublicRoute>
-              <PublicRoute path="/register" component={LoginComponent} exact={true}></PublicRoute>
+              <PublicRoute path="/register" component={RegisterComponent} exact={true}></PublicRoute>
 
               <PrivateRoute path="/filelist" component={FileList} exact={true}></PrivateRoute>
               <PrivateRoute path="/player" component={AppVideoPlayer} exact={true}></PrivateRoute>

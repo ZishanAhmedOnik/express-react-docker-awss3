@@ -12,7 +12,7 @@ class NavbarComponent extends Component {
     }
 
     render() {
-        return (
+        return this.props.isAuthenticated ? (
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-2">
                 <div className="container">
                     <Link className="navbar-brand" to="/">Clone</Link>
@@ -34,23 +34,46 @@ class NavbarComponent extends Component {
 
                         <ul className="navbar-nav ml-auto">
                             <li className="nav-item">
-                                <Link className="nav-link" to="/login">Login</Link>
+                                <Link className="nav-link" to="/">Hi { this.props.user.firstName }</Link>
                             </li>
 
                             <li className="nav-item">
-                                <Link className="nav-link" to="/register">Register</Link>
-                            </li>
-
-                            <li className="nav-item">
-                            <button className="btn btn-link nav-link logoutBtn" onClick={this.logout} >Logout</button>
+                                <button className="btn btn-link nav-link logoutBtn" onClick={this.logout} >Logout</button>
                             </li>
                         </ul>
                     </div>
                 </div>
             </nav>
         )
+            :
+            (
+                <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-2">
+                    <div className="container">
+                        <Link className="navbar-brand" to="/">Clone</Link>
+                        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span className="navbar-toggler-icon"></span>
+                        </button>
+                        <div className="collapse navbar-collapse" id="navbarNav">
+                            <ul className="navbar-nav ml-auto">
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/login">Login</Link>
+                                </li>
+
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/register">Register</Link>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            )
     }
 }
+
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.authReducer.isAuthenticated,
+    user: state.authReducer.user
+})
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -58,4 +81,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(NavbarComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(NavbarComponent);

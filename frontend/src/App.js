@@ -14,6 +14,8 @@ import LoginComponent from './components/Auth/LoginComponent';
 import RegisterComponent from './components/Auth/RegisterComponent';
 
 import setAutToken from '../src/helpers/SetAuthToken';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import PublicRoute from './components/PrivateRoute/PublicRoute';
 
 // const videoJsOptions = {
 //   autoplay: true,
@@ -42,25 +44,12 @@ class App extends Component {
           <NavbarComponent />
           <div className="container">
             <Switch>
-              <Route path="/filelist">
-                <FileList></FileList>
-              </Route>
+              <PublicRoute path="/login" component={LoginComponent} exact={true}></PublicRoute>
+              <PublicRoute path="/register" component={LoginComponent} exact={true}></PublicRoute>
 
-              <Route path="/player">
-                <AppVideoPlayer />
-              </Route>
-
-              <Route path="/login">
-                <LoginComponent />
-              </Route>
-
-              <Route path="/register">
-                <RegisterComponent />
-              </Route>
-
-              <Route path="/">
-                <FileUploadComponent />
-              </Route>
+              <PrivateRoute path="/filelist" component={FileList} exact={true}></PrivateRoute>
+              <PrivateRoute path="/player" component={AppVideoPlayer} exact={true}></PrivateRoute>
+              <PrivateRoute path="/" component={FileUploadComponent} exact={true}></PrivateRoute>
             </Switch>
           </div>
         </Router>
